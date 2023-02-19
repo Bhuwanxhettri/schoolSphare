@@ -1,7 +1,7 @@
-import { StyleSheet, Image, View } from "react-native";
+import { StyleSheet, Image, View, Text } from "react-native";
 import React, { useEffect } from "react";
 import { colors } from "../../constants";
-import logo from "../../assets/logo/logo_white.png";
+import logo from "../../image/companyLogo.png";
 
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
@@ -38,7 +38,7 @@ const Splash = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-      <Image style={styles.logo} source={logo} />
+      <Text style={styles.welcomeText}>School Sphare</Text>
     </View>
   );
 };
@@ -48,7 +48,7 @@ export default Splash;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: colors.primary,
+    backgroundColor: colors.white,
     alignItems: "center",
     justifyContent: "center",
   },
@@ -59,7 +59,7 @@ const styles = StyleSheet.create({
   },
   logo: {
     resizeMode: "contain",
-    width: 80,
-    height: 80,
+    width: 180,
+    height: 180,
   },
 });

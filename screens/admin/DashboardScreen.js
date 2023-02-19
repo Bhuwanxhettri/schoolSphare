@@ -24,100 +24,100 @@ const DashboardScreen = ({ navigation, route }) => {
   const [label, setLabel] = useState("Loading...");
   const [error, setError] = useState("");
   const [isloading, setIsloading] = useState(false);
-  const [data, setData] = useState([]);
-  const [refeshing, setRefreshing] = useState(false);
+  // const [data, setData] = useState([]);
+  // const [refeshing, setRefreshing] = useState(false);
 
   //method to remove the auth user from async storage and navigate the login if token expires
-  const logout = async () => {
-    await AsyncStorage.removeItem("authUser");
-    navigation.replace("login");
-  };
+  // const logout = async () => {
+  //   await AsyncStorage.removeItem("authUser");
+  //   navigation.replace("login");
+  // };
 
-  var myHeaders = new Headers();
-  myHeaders.append("x-auth-token", authUser.token);
+  // var myHeaders = new Headers();
+  // myHeaders.append("x-auth-token", authUser.token);
 
-  var requestOptions = {
-    method: "GET",
-    headers: myHeaders,
-    redirect: "follow",
-  };
+  // var requestOptions = {
+  //   method: "GET",
+  //   headers: myHeaders,
+  //   redirect: "follow",
+  // };
 
   //method the fetch the statistics from server using API call
-  const fetchStats = () => {
-    fetch(`${network.serverip}/dashboard`, requestOptions)
-      .then((response) => response.json())
-      .then((result) => {
-        if (result.success == true) {
-          //set the fetched data to Data state
-          setData([
-            {
-              id: 1,
-              title: "Users",
-              value: result.data?.usersCount,
-              iconName: "person",
-              type: "parimary",
-              screenName: "viewusers",
-            },
-            {
-              id: 2,
-              title: "Orders",
-              value: result.data?.ordersCount,
-              iconName: "cart",
-              type: "secondary",
-              screenName: "vieworder",
-            },
-            {
-              id: 3,
-              title: "Products",
-              value: result.data?.productsCount,
-              iconName: "md-square",
-              type: "warning",
-              screenName: "viewproduct",
-            },
-            {
-              id: 4,
-              title: "Categories",
-              value: result.data?.categoriesCount,
-              iconName: "menu",
-              type: "muted",
-              screenName: "viewcategories",
-            },
-          ]);
-          setError("");
-          setIsloading(false);
-        } else {
-          console.log(result.err);
-          if (result.err == "jwt expired") {
-            logout();
-          }
-          setError(result.message);
-          setIsloading(false);
-        }
-      })
-      .catch((error) => {
-        setError(error.message);
-        console.log("error", error);
-        setIsloading(false);
-      });
-  };
+  // const fetchStats = () => {
+  //   fetch(`${network.serverip}/dashboard`, requestOptions)
+  //     .then((response) => response.json())
+  //     .then((result) => {
+  //       if (result.success == true) {
+  //         //set the fetched data to Data state
+  //         setData([
+  //           {
+  //             id: 1,
+  //             title: "Users",
+  //             value: result.data?.usersCount,
+  //             iconName: "person",
+  //             type: "parimary",
+  //             screenName: "viewusers",
+  //           },
+  //           {
+  //             id: 2,
+  //             title: "Orders",
+  //             value: result.data?.ordersCount,
+  //             iconName: "cart",
+  //             type: "secondary",
+  //             screenName: "vieworder",
+  //           },
+  //           {
+  //             id: 3,
+  //             title: "Products",
+  //             value: result.data?.productsCount,
+  //             iconName: "md-square",
+  //             type: "warning",
+  //             screenName: "viewproduct",
+  //           },
+  //           {
+  //             id: 4,
+  //             title: "Categories",
+  //             value: result.data?.categoriesCount,
+  //             iconName: "menu",
+  //             type: "muted",
+  //             screenName: "viewcategories",
+  //           },
+  //         ]);
+  //         setError("");
+  //         setIsloading(false);
+  //       } else {
+  //         console.log(result.err);
+  //         if (result.err == "jwt expired") {
+  //           logout();
+  //         }
+  //         setError(result.message);
+  //         setIsloading(false);
+  //       }
+  //     })
+  //     .catch((error) => {
+  //       setError(error.message);
+  //       console.log("error", error);
+  //       setIsloading(false);
+  //     });
+  // };
 
   //method call on Pull refresh
-  const handleOnRefresh = () => {
-    setRefreshing(true);
-    fetchStats();
-    setRefreshing(false);
-  };
+  // const handleOnRefresh = () => {
+  //   setRefreshing(true);
+  //   fetchStats();
+  //   setRefreshing(false);
+  // };
 
   //call the fetch function initial render
-  useEffect(() => {
-    fetchStats();
-  }, []);
+  // useEffect(() => {
+  //   fetchStats();
+  // }, []);
 
   return (
     <InternetConnectionAlert onChange={(connectionState) => {}}>
       <View style={styles.container}>
         <StatusBar></StatusBar>
-        <ProgressDialog visible={isloading} label={label} />
+        {/* <ProgressDialog visible={isloading} label={label} /> */}
         <View style={styles.topBarContainer}>
           <TouchableOpacity
             onPress={async () => {
@@ -142,32 +142,7 @@ const DashboardScreen = ({ navigation, route }) => {
           <MaterialCommunityIcons name="menu-right" size={30} color="black" />
           <Text style={styles.headingText}>Welcome, Admin</Text>
         </View>
-        <View style={{ height: 370 }}>
-          {data && (
-            <ScrollView
-              refreshControl={
-                <RefreshControl
-                  refreshing={refeshing}
-                  onRefresh={handleOnRefresh}
-                />
-              }
-              contentContainerStyle={styles.cardContainer}
-            >
-              {data.map((data) => (
-                <CustomCard
-                  key={data.id}
-                  iconName={data.iconName}
-                  title={data.title}
-                  value={data.value}
-                  type={data.type}
-                  onPress={() => {
-                    navigation.navigate(data.screenName, { authUser: user });
-                  }}
-                />
-              ))}
-            </ScrollView>
-          )}
-        </View>
+
         <View style={styles.headingContainer}>
           <MaterialCommunityIcons name="menu-right" size={30} color="black" />
           <Text style={styles.headingText}>Actions</Text>

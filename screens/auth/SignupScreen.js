@@ -11,7 +11,7 @@ import {
 import React, { useState } from "react";
 import { colors, network } from "../../constants";
 import CustomInput from "../../components/CustomInput";
-import header_logo from "../../assets/logo/logo.png";
+import logo from "../../image/companyLogo.png";
 import CustomButton from "../../components/CustomButton";
 import { Ionicons } from "@expo/vector-icons";
 import CustomAlert from "../../components/CustomAlert/CustomAlert";
@@ -98,8 +98,6 @@ const SignupScreen = ({ navigation }) => {
         <ScrollView style={{ width: "100%" }}>
           <View style={styles.welconeContainer}>
             <Text style={styles.welcomeText}>School Sphare</Text>
-
-            {/* <Image style={styles.logo} source={header_logo} /> */}
           </View>
           <View style={styles.screenNameContainer}>
             <View>
@@ -181,7 +179,6 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     justifyContent: "center",
     alignItems: "center",
-    height: "20%",
   },
   welcomeText: {
     fontSize: 32,
