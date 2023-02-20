@@ -17,101 +17,119 @@ import OptionList from "../../components/OptionList/OptionList";
 import InternetConnectionAlert from "react-native-internet-connection-alert";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import ProgressDialog from "react-native-progress-dialog";
+import { Avatar } from "@rneui/themed";
+import { PricingCard, lightColors } from "@rneui/themed";
+// import {
+//   LineChart,
+//   BarChart,
+//   PieChart,
+//   ProgressChart,
+//   ContributionGraph,
+//   StackedBarChart,
+// } from "react-native-chart-kit";
 
+// const barData = {
+//   labels: ["January", "February", "March", "April", "May", "June"],
+//   datasets: [
+//     {
+//       data: [20, 45, 28, 80, 99, 43],
+//     },
+//   ],
+// };
 const DashboardScreen = ({ navigation, route }) => {
-  const { authUser } = route.params;
-  const [user, setUser] = useState(authUser);
+  // const { authUser } = route.params;
+  // const [user, setUser] = useState(authUser);
   const [label, setLabel] = useState("Loading...");
   const [error, setError] = useState("");
   const [isloading, setIsloading] = useState(false);
-  const [data, setData] = useState([]);
-  const [refeshing, setRefreshing] = useState(false);
+  // const [data, setData] = useState([]);
+  // const [refeshing, setRefreshing] = useState(false);
 
   //method to remove the auth user from async storage and navigate the login if token expires
-  const logout = async () => {
-    await AsyncStorage.removeItem("authUser");
-    navigation.replace("login");
-  };
+  // const logout = async () => {
+  //   await AsyncStorage.removeItem("authUser");
+  //   navigation.replace("login");
+  // };
 
-  var myHeaders = new Headers();
-  myHeaders.append("x-auth-token", authUser.token);
+  // var myHeaders = new Headers();
+  // myHeaders.append("x-auth-token", authUser.token);
 
-  var requestOptions = {
-    method: "GET",
-    headers: myHeaders,
-    redirect: "follow",
-  };
+  // var requestOptions = {
+  //   method: "GET",
+  //   headers: myHeaders,
+  //   redirect: "follow",
+  // };
 
   //method the fetch the statistics from server using API call
-  const fetchStats = () => {
-    fetch(`${network.serverip}/dashboard`, requestOptions)
-      .then((response) => response.json())
-      .then((result) => {
-        if (result.success == true) {
-          //set the fetched data to Data state
-          setData([
-            {
-              id: 1,
-              title: "Users",
-              value: result.data?.usersCount,
-              iconName: "person",
-              type: "parimary",
-              screenName: "viewusers",
-            },
-            {
-              id: 2,
-              title: "Orders",
-              value: result.data?.ordersCount,
-              iconName: "cart",
-              type: "secondary",
-              screenName: "vieworder",
-            },
-            {
-              id: 3,
-              title: "Products",
-              value: result.data?.productsCount,
-              iconName: "md-square",
-              type: "warning",
-              screenName: "viewproduct",
-            },
-            {
-              id: 4,
-              title: "Categories",
-              value: result.data?.categoriesCount,
-              iconName: "menu",
-              type: "muted",
-              screenName: "viewcategories",
-            },
-          ]);
-          setError("");
-          setIsloading(false);
-        } else {
-          console.log(result.err);
-          if (result.err == "jwt expired") {
-            logout();
-          }
-          setError(result.message);
-          setIsloading(false);
-        }
-      })
-      .catch((error) => {
-        setError(error.message);
-        console.log("error", error);
-        setIsloading(false);
-      });
-  };
+  // const fetchStats = () => {
+  //   fetch(`${network.serverip}/dashboard`, requestOptions)
+  //     .then((response) => response.json())
+  //     .then((result) => {
+  //       if (result.success == true) {
+  //         //set the fetched data to Data state
+  //         setData([
+  //           {
+  //             id: 1,
+  //             title: "Users",
+  //             value: result.data?.usersCount,
+  //             iconName: "person",
+  //             type: "parimary",
+  //             screenName: "viewusers",
+  //           },
+  //           {
+  //             id: 2,
+  //             title: "Orders",
+  //             value: result.data?.ordersCount,
+  //             iconName: "cart",
+  //             type: "secondary",
+  //             screenName: "vieworder",
+  //           },
+  //           {
+  //             id: 3,
+  //             title: "Products",
+  //             value: result.data?.productsCount,
+  //             iconName: "md-square",
+  //             type: "warning",
+  //             screenName: "viewproduct",
+  //           },
+  //           {
+  //             id: 4,
+  //             title: "Categories",
+  //             value: result.data?.categoriesCount,
+  //             iconName: "menu",
+  //             type: "muted",
+  //             screenName: "viewcategories",
+  //           },
+  //         ]);
+  //         setError("");
+  //         setIsloading(false);
+  //       } else {
+  //         console.log(result.err);
+  //         if (result.err == "jwt expired") {
+  //           logout();
+  //         }
+  //         setError(result.message);
+  //         setIsloading(false);
+  //       }
+  //     })
+  //     .catch((error) => {
+  //       setError(error.message);
+  //       console.log("error", error);
+  //       setIsloading(false);
+  //     });
+  // };
 
   //method call on Pull refresh
-  const handleOnRefresh = () => {
-    setRefreshing(true);
-    fetchStats();
-    setRefreshing(false);
-  };
+  // const handleOnRefresh = () => {
+  //   setRefreshing(true);
+  //   fetchStats();
+  //   setRefreshing(false);
+  // };
 
   //call the fetch function initial render
-  useEffect(() => {
-    fetchStats();
-  }, []);
+  // useEffect(() => {
+  //   fetchStats();
+  // }, []);
 
   return (
     <InternetConnectionAlert onChange={(connectionState) => {}}>
@@ -128,96 +146,73 @@ const DashboardScreen = ({ navigation, route }) => {
             <Ionicons name="log-out" size={30} color={colors.muted} />
           </TouchableOpacity>
           <View>
-            <Text style={styles.toBarText}>Dashboard</Text>
+            <Text style={styles.toBarText}>School Sphare</Text>
           </View>
           <TouchableOpacity>
-            <Ionicons
-              name="person-circle-outline"
-              size={30}
-              color={colors.muted}
+            <Avatar
+              size={32}
+              rounded
+              source={{ uri: "https://randomuser.me/api/portraits/men/36.jpg" }}
             />
           </TouchableOpacity>
         </View>
         <View style={styles.headingContainer}>
           <MaterialCommunityIcons name="menu-right" size={30} color="black" />
-          <Text style={styles.headingText}>Welcome, Admin</Text>
+          <Text style={styles.headingText}>Welcome,Bhuwan</Text>
         </View>
-        <View style={{ height: 370 }}>
-          {data && (
-            <ScrollView
-              refreshControl={
-                <RefreshControl
-                  refreshing={refeshing}
-                  onRefresh={handleOnRefresh}
-                />
-              }
-              contentContainerStyle={styles.cardContainer}
-            >
-              {data.map((data) => (
-                <CustomCard
-                  key={data.id}
-                  iconName={data.iconName}
-                  title={data.title}
-                  value={data.value}
-                  type={data.type}
-                  onPress={() => {
-                    navigation.navigate(data.screenName, { authUser: user });
-                  }}
-                />
-              ))}
-            </ScrollView>
-          )}
-        </View>
-        <View style={styles.headingContainer}>
-          <MaterialCommunityIcons name="menu-right" size={30} color="black" />
-          <Text style={styles.headingText}>Actions</Text>
-        </View>
+
         <View style={{ flex: 1, width: "100%" }}>
           <ScrollView style={styles.actionContainer}>
+            <PricingCard
+              color={lightColors.primary}
+              title="Attendance"
+              price="24 Days"
+              info={["June", "2023"]}
+              button={{ title: "See Full Attendance" }}
+            />
             <OptionList
-              text={"Products"}
+              text={"Assignment"}
               Icon={Ionicons}
               iconName={"md-square"}
-              onPress={() =>
-                navigation.navigate("viewproduct", { authUser: user })
-              }
-              onPressSecondary={() =>
-                navigation.navigate("addproduct", { authUser: user })
-              }
-              type="morden"
+              // onPress={() =>
+              //   navigation.navigate("viewproduct", { authUser: user })
+              // }
+              // onPressSecondary={() =>
+              //   navigation.navigate("addproduct", { authUser: user })
+              // }
+              // type="morden"
             />
+            {/* <BarChart
+              // style={graphStyle}
+              data={barData}
+              // width={screenWidth}
+              height={220}
+              yAxisLabel={"$"}
+              // chartConfig={chartConfig}
+            /> */}
+
             <OptionList
-              text={"Categories"}
+              text={"Classes"}
               Icon={Ionicons}
               iconName={"menu"}
-              onPress={() =>
-                navigation.navigate("viewcategories", { authUser: user })
-              }
-              onPressSecondary={() =>
-                navigation.navigate("addcategories", { authUser: user })
-              }
-              type="morden"
-            />
-            <OptionList
-              text={"Orders"}
-              Icon={Ionicons}
-              iconName={"cart"}
-              onPress={() =>
-                navigation.navigate("vieworder", { authUser: user })
-              }
-              type="morden"
-            />
-            <OptionList
-              text={"Users"}
-              Icon={Ionicons}
-              iconName={"person"}
-              onPress={() =>
-                navigation.navigate("viewusers", { authUser: user })
-              }
-              type="morden"
+              // onPress={() =>
+              //   navigation.navigate("viewcategories", { authUser: user })
+              // }
+              // onPressSecondary={() =>
+              //   navigation.navigate("addcategories", { authUser: user })
+              // }
+              // type="morden"
             />
 
-            <View style={{ height: 20 }}></View>
+            <OptionList
+              text={"Teachers"}
+              Icon={Ionicons}
+              iconName={"person"}
+              // onPress={() =>
+              //   navigation.navigate("viewusers", { authUser: user })
+              // }
+              // type="morden"
+            />
           </ScrollView>
         </View>
       </View>
@@ -246,8 +241,9 @@ const styles = StyleSheet.create({
     padding: 20,
   },
   toBarText: {
-    fontSize: 15,
+    fontSize: 25,
     fontWeight: "600",
+    color: colors.secondary,
   },
   cardContainer: {
     flexDirection: "row",

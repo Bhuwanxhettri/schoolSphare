@@ -39,7 +39,9 @@ const Routes = () => {
         <Stack.Screen name="login" component={LoginScreen} />
         <Stack.Screen name="signup" component={SignupScreen} />
         <Stack.Screen name="forgetpassword" component={ForgetPasswordScreen} />
-        <Stack.Screen name="updatepassword" component={UpdatePasswordScreen} />
+        <Stack.Screen name="dashboard" component={DashboardScreen} />
+
+        {/* <Stack.Screen name="updatepassword" component={UpdatePasswordScreen} />
         <Stack.Screen name="myaccount" component={MyAccountScreen} />
         <Stack.Screen name="mywishlist" component={MyWishlistScreen} />
         <Stack.Screen name="dashboard" component={DashboardScreen} />
@@ -55,14 +57,14 @@ const Routes = () => {
         <Stack.Screen
           name="vieworderdetails"
           component={ViewOrderDetailScreen}
-        />
-        <Stack.Screen name="myorder" component={MyOrderScreen} />
+        /> */}
+        {/* <Stack.Screen name="myorder" component={MyOrderScreen} />
         <Stack.Screen name="myorderdetail" component={MyOrderDetailScreen} />
         <Stack.Screen name="viewcategories" component={ViewCategoryScreen} />
         <Stack.Screen name="addcategories" component={AddCategoryScreen} />
         <Stack.Screen name="editcategories" component={EditCategoryScreen} />
         <Stack.Screen name="viewusers" component={ViewUsersScreen} />
-        <Stack.Screen name="categories" component={CategoriesScreen} />
+        <Stack.Screen name="categories" component={CategoriesScreen} /> */}
       </Stack.Navigator>
     </NavigationContainer>
   );

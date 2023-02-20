@@ -11,12 +11,12 @@ import {
 import React, { useState } from "react";
 import { colors, network } from "../../constants";
 import CustomInput from "../../components/CustomInput";
-import header_logo from "../../assets/logo/logo.png";
 import CustomButton from "../../components/CustomButton";
 import CustomAlert from "../../components/CustomAlert/CustomAlert";
 import ProgressDialog from "react-native-progress-dialog";
 import InternetConnectionAlert from "react-native-internet-connection-alert";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import logo from "../../image/companyLogo.png";
 
 const LoginScreen = ({ navigation }) => {
   const [email, setEmail] = useState("");
@@ -121,9 +121,6 @@ const LoginScreen = ({ navigation }) => {
             <View>
               <Text style={styles.welcomeText}>School Sphare</Text>
             </View>
-            {/* <View>
-              <Image style={styles.logo} source={header_logo} />
-            </View> */}
           </View>
           <View style={styles.screenNameContainer}>
             <Text style={styles.screenNameText}>Login</Text>
@@ -153,19 +150,25 @@ const LoginScreen = ({ navigation }) => {
             </Text>
             <View style={styles.forgetPasswordContainer}></View>
           </View>
+          <View style={styles.buttomContainer}>
+            <CustomButton text={"Login"} onPress={loginHandle} />
+          </View>
+          <View style={styles.bottomContainer}>
+            <Text>Don't have an account?</Text>
+            <Text
+              onPress={() => navigation.navigate("signup")}
+              style={styles.signupText}
+            >
+              signup
+            </Text>
+          </View>
         </ScrollView>
-        <View style={styles.buttomContainer}>
-          <CustomButton text={"Login"} onPress={loginHandle} />
-        </View>
-        <View style={styles.bottomContainer}>
-          <Text>Don't have an account?</Text>
-          <Text
-            onPress={() => navigation.navigate("signup")}
-            style={styles.signupText}
-          >
-            signup
-          </Text>
-        </View>
+        <Text
+          onPress={() => navigation.navigate("dashboard")}
+          style={styles.signupText}
+        >
+          Dashboard
+        </Text>
       </KeyboardAvoidingView>
     </InternetConnectionAlert>
   );
@@ -189,7 +192,6 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-around",
     alignItems: "center",
-    height: "30%",
     padding: 15,
     marginBottom: 50,
   },
