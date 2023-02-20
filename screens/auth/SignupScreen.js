@@ -137,19 +137,19 @@ const SignupScreen = ({ navigation }) => {
               radius={5}
             />
           </View>
+          <View style={styles.buttomContainer}>
+            <CustomButton text={"Sign up"} onPress={signUpHandle} />
+          </View>
+          <View style={styles.bottomContainer}>
+            <Text>Already have an account?</Text>
+            <Text
+              onPress={() => navigation.navigate("login")}
+              style={styles.signupText}
+            >
+              Login
+            </Text>
+          </View>
         </ScrollView>
-        <View style={styles.buttomContainer}>
-          <CustomButton text={"Sign up"} onPress={signUpHandle} />
-        </View>
-        <View style={styles.bottomContainer}>
-          <Text>Already have an account?</Text>
-          <Text
-            onPress={() => navigation.navigate("login")}
-            style={styles.signupText}
-          >
-            Login
-          </Text>
-        </View>
       </KeyboardAvoidingView>
     </InternetConnectionAlert>
   );

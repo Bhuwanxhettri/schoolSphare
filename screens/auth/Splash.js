@@ -1,4 +1,4 @@
-import { StyleSheet, Image, View, Text } from "react-native";
+import { StyleSheet, Image, View } from "react-native";
 import React, { useEffect } from "react";
 import { colors } from "../../constants";
 import logo from "../../image/companyLogo.png";
@@ -38,7 +38,7 @@ const Splash = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.welcomeText}>School Sphare</Text>
+      <Image style={styles.logo} source={logo} />
     </View>
   );
 };

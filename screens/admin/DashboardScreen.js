@@ -17,10 +17,28 @@ import OptionList from "../../components/OptionList/OptionList";
 import InternetConnectionAlert from "react-native-internet-connection-alert";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import ProgressDialog from "react-native-progress-dialog";
+import { Avatar } from "@rneui/themed";
+import { PricingCard, lightColors } from "@rneui/themed";
+// import {
+//   LineChart,
+//   BarChart,
+//   PieChart,
+//   ProgressChart,
+//   ContributionGraph,
+//   StackedBarChart,
+// } from "react-native-chart-kit";
 
+// const barData = {
+//   labels: ["January", "February", "March", "April", "May", "June"],
+//   datasets: [
+//     {
+//       data: [20, 45, 28, 80, 99, 43],
+//     },
+//   ],
+// };
 const DashboardScreen = ({ navigation, route }) => {
-  const { authUser } = route.params;
-  const [user, setUser] = useState(authUser);
+  // const { authUser } = route.params;
+  // const [user, setUser] = useState(authUser);
   const [label, setLabel] = useState("Loading...");
   const [error, setError] = useState("");
   const [isloading, setIsloading] = useState(false);
@@ -117,7 +135,7 @@ const DashboardScreen = ({ navigation, route }) => {
     <InternetConnectionAlert onChange={(connectionState) => {}}>
       <View style={styles.container}>
         <StatusBar></StatusBar>
-        {/* <ProgressDialog visible={isloading} label={label} /> */}
+        <ProgressDialog visible={isloading} label={label} />
         <View style={styles.topBarContainer}>
           <TouchableOpacity
             onPress={async () => {
@@ -128,71 +146,73 @@ const DashboardScreen = ({ navigation, route }) => {
             <Ionicons name="log-out" size={30} color={colors.muted} />
           </TouchableOpacity>
           <View>
-            <Text style={styles.toBarText}>Dashboard</Text>
+            <Text style={styles.toBarText}>School Sphare</Text>
           </View>
           <TouchableOpacity>
-            <Ionicons
-              name="person-circle-outline"
-              size={30}
-              color={colors.muted}
+            <Avatar
+              size={32}
+              rounded
+              source={{ uri: "https://randomuser.me/api/portraits/men/36.jpg" }}
             />
           </TouchableOpacity>
         </View>
         <View style={styles.headingContainer}>
           <MaterialCommunityIcons name="menu-right" size={30} color="black" />
-          <Text style={styles.headingText}>Welcome, Admin</Text>
+          <Text style={styles.headingText}>Welcome,Bhuwan</Text>
         </View>
 
-        <View style={styles.headingContainer}>
-          <MaterialCommunityIcons name="menu-right" size={30} color="black" />
-          <Text style={styles.headingText}>Actions</Text>
-        </View>
         <View style={{ flex: 1, width: "100%" }}>
           <ScrollView style={styles.actionContainer}>
+            <PricingCard
+              color={lightColors.primary}
+              title="Attendance"
+              price="24 Days"
+              info={["June", "2023"]}
+              button={{ title: "See Full Attendance" }}
+            />
             <OptionList
-              text={"Products"}
+              text={"Assignment"}
               Icon={Ionicons}
               iconName={"md-square"}
-              onPress={() =>
-                navigation.navigate("viewproduct", { authUser: user })
-              }
-              onPressSecondary={() =>
-                navigation.navigate("addproduct", { authUser: user })
-              }
-              type="morden"
+              // onPress={() =>
+              //   navigation.navigate("viewproduct", { authUser: user })
+              // }
+              // onPressSecondary={() =>
+              //   navigation.navigate("addproduct", { authUser: user })
+              // }
+              // type="morden"
             />
+            {/* <BarChart
+              // style={graphStyle}
+              data={barData}
+              // width={screenWidth}
+              height={220}
+              yAxisLabel={"$"}
+              // chartConfig={chartConfig}
+            /> */}
+
             <OptionList
-              text={"Categories"}
+              text={"Classes"}
               Icon={Ionicons}
               iconName={"menu"}
-              onPress={() =>
-                navigation.navigate("viewcategories", { authUser: user })
-              }
-              onPressSecondary={() =>
-                navigation.navigate("addcategories", { authUser: user })
-              }
-              type="morden"
-            />
-            <OptionList
-              text={"Orders"}
-              Icon={Ionicons}
-              iconName={"cart"}
-              onPress={() =>
-                navigation.navigate("vieworder", { authUser: user })
-              }
-              type="morden"
-            />
-            <OptionList
-              text={"Users"}
-              Icon={Ionicons}
-              iconName={"person"}
-              onPress={() =>
-                navigation.navigate("viewusers", { authUser: user })
-              }
-              type="morden"
+              // onPress={() =>
+              //   navigation.navigate("viewcategories", { authUser: user })
+              // }
+              // onPressSecondary={() =>
+              //   navigation.navigate("addcategories", { authUser: user })
+              // }
+              // type="morden"
             />
 
-            <View style={{ height: 20 }}></View>
+            <OptionList
+              text={"Teachers"}
+              Icon={Ionicons}
+              iconName={"person"}
+              // onPress={() =>
+              //   navigation.navigate("viewusers", { authUser: user })
+              // }
+              // type="morden"
+            />
           </ScrollView>
         </View>
       </View>
@@ -221,8 +241,9 @@ const styles = StyleSheet.create({
     padding: 20,
   },
   toBarText: {
-    fontSize: 15,
+    fontSize: 25,
     fontWeight: "600",
+    color: colors.secondary,
   },
   cardContainer: {
     flexDirection: "row",

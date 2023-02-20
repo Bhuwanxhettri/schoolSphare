@@ -18,7 +18,7 @@ const OptionList = ({
       {type == "morden" ? (
         <View style={[styles.container, { backgroundColor: colors.white }]}>
           <View style={styles.IconContainer}>
-            <Icon name={iconName} size={24} color={colors.primary} />
+            <Icon name={iconName} size={24} color={colors.button} />
             <Text style={styles.listText}>{text}</Text>
           </View>
           <View style={styles.buttonContainer}>
@@ -40,14 +40,14 @@ const OptionList = ({
       ) : (
         <TouchableOpacity style={styles.container} onPress={onPress}>
           <View style={styles.IconContainer}>
-            <Icon name={iconName} size={24} color={colors.primary} />
+            <Icon name={iconName} size={24} color={colors.button} />
             <Text style={styles.listText}>{text}</Text>
           </View>
           <View>
             <MaterialIcons
               name="arrow-forward-ios"
               size={24}
-              color={colors.primary}
+              color={colors.button}
             />
           </View>
         </TouchableOpacity>
