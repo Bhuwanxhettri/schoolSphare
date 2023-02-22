@@ -4,27 +4,9 @@ import SignupScreen from "../screens/auth/SignupScreen";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import Splash from "../screens/auth/Splash";
 import ForgetPasswordScreen from "../screens/auth/ForgetPasswordScreen";
-import UpdatePasswordScreen from "../screens/profile/UpdatePasswordScreen";
-import MyAccountScreen from "../screens/profile/MyAccountScreen";
-import AddProductScreen from "../screens/admin/AddProductScreen";
 import DashboardScreen from "../screens/admin/DashboardScreen";
-import ViewProductScreen from "../screens/admin/ViewProductScreen";
-import Tabs from "./tabs/Tabs";
-import CartScreen from "../screens/user/CartScreen";
-import CheckoutScreen from "../screens/user/CheckoutScreen.js";
-import OrderConfirmScreen from "../screens/user/OrderConfirmScreen";
-import ProductDetailScreen from "../screens/user/ProductDetailScreen";
-import EditProductScreen from "../screens/admin/EditProductScreen";
-import ViewOrdersScreen from "../screens/admin/ViewOrdersScreen";
-import ViewOrderDetailScreen from "../screens/admin/ViewOrderDetailScreen";
-import MyOrderScreen from "../screens/user/MyOrderScreen";
-import MyOrderDetailScreen from "../screens/user/MyOrderDetailScreen";
-import ViewCategoryScreen from "../screens/admin/ViewCategoryScreen";
-import AddCategoryScreen from "../screens/admin/AddCategoryScreen";
-import ViewUsersScreen from "../screens/admin/ViewUsersScreen";
-import CategoriesScreen from "../screens/user/CategoriesScreen";
-import EditCategoryScreen from "../screens/admin/EditCategoryScreen";
-import MyWishlistScreen from "../screens/profile/MyWishlistScreen";
+import UserProfileScreen from "../screens/profile/UserProfileScreen";
+import Notify from "../screens/notification/Notify";
 
 const Stack = createNativeStackNavigator();
 
@@ -40,6 +22,8 @@ const Routes = () => {
         <Stack.Screen name="signup" component={SignupScreen} />
         <Stack.Screen name="forgetpassword" component={ForgetPasswordScreen} />
         <Stack.Screen name="dashboard" component={DashboardScreen} />
+        <Stack.Screen name="profile" component={UserProfileScreen} />
+        <Stack.Screen name="notify" component={Notify} />
 
         {/* <Stack.Screen name="updatepassword" component={UpdatePasswordScreen} />
         <Stack.Screen name="myaccount" component={MyAccountScreen} />

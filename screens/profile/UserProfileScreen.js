@@ -3,6 +3,8 @@ import {
   Text,
   View,
   StatusBar,
+  Image,
+  ScrollView,
   TouchableOpacity,
 } from "react-native";
 import React, { useEffect, useState } from "react";
@@ -11,120 +13,181 @@ import { Ionicons } from "@expo/vector-icons";
 import OptionList from "../../components/OptionList/OptionList";
 import { colors } from "../../constants";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-
+import { Avatar } from "@rneui/themed";
 const UserProfileScreen = ({ navigation, route }) => {
-  const [userInfo, setUserInfo] = useState({});
-  const { user } = route.params;
+  // const [userInfo, setUserInfo] = useState({});
+  // const { user } = route.params;
 
-  const convertToJSON = (obj) => {
-    try {
-      setUserInfo(JSON.parse(obj));
-    } catch (e) {
-      setUserInfo(obj);
-    }
-  };
+  // const convertToJSON = (obj) => {
+  //   try {
+  //     setUserInfo(JSON.parse(obj));
+  //   } catch (e) {
+  //     setUserInfo(obj);
+  //   }
+  // };
 
   // covert  the user to Json object on initial render
-  useEffect(() => {
-    convertToJSON(user);
-  }, []);
+  // useEffect(() => {
+  //   convertToJSON(user);
+  // }, []);
+  const handleEditPress = () => {};
   return (
-    <View style={styles.container}>
-      <StatusBar style="auto"></StatusBar>
-      <View style={styles.TopBarContainer}>
-        <TouchableOpacity>
-          <Ionicons name="menu-sharp" size={30} color={colors.primary} />
-        </TouchableOpacity>
-      </View>
-      <View style={styles.screenNameContainer}>
-        <Text style={styles.screenNameText}>Profile</Text>
-      </View>
-      <View style={styles.UserProfileCardContianer}>
-        <UserProfileCard
-          Icon={Ionicons}
-          name={userInfo?.name}
-          email={userInfo?.email}
-        />
-      </View>
-      <View style={styles.OptionsContainer}>
-        <OptionList
-          text={"My Account"}
-          Icon={Ionicons}
-          iconName={"person"}
-          onPress={() => navigation.navigate("myaccount", { user: userInfo })}
-        />
-        <OptionList
-          text={"Wishlist"}
-          Icon={Ionicons}
-          iconName={"heart"}
-          onPress={() => navigation.navigate("mywishlist", { user: userInfo })}
-        />
-        {/* !For future use --- */}
-        {/* <OptionList
-          text={"Settings"}
-          Icon={Ionicons}
-          iconName={"settings-sharp"}
-          onPress={() => console.log("working....")}
-        />
-        <OptionList
-          text={"Help Center"}
-          Icon={Ionicons}
-          iconName={"help-circle"}
-          onPress={() => console.log("working....")}
-        /> */}
-        {/* !For future use ---- End */}
-        <OptionList
-          text={"Logout"}
-          Icon={Ionicons}
-          iconName={"log-out"}
-          onPress={async () => {
-            await AsyncStorage.removeItem("authUser");
-            navigation.replace("login");
+    // <View style={styles.container}>
+    //   <StatusBar style="auto"></StatusBar>
+    //   <View style={styles.TopBarContainer}>
+    //     <TouchableOpacity>
+    //       <Ionicons name="menu-sharp" size={30} color={colors.primary} />
+    //     </TouchableOpacity>
+    //   </View>
+    //   <View style={styles.screenNameContainer}>
+    //     <Text style={styles.screenNameText}>Profile</Text>
+    //   </View>
+    //   <View style={styles.UserProfileCardContianer}>
+    //     <Avatar
+    //       size={140}
+    //       rounded
+    //       source={{ uri: "https://randomuser.me/api/portraits/men/36.jpg" }}
+    //     />
+    //   </View>
+    //   <View style={styles.OptionsContainer}>
+    //     <OptionList
+    //       text={"Change Password"}
+    //       Icon={Ionicons}
+    //       iconName={"person"}
+    //       // onPress={() => navigation.navigate("myaccount", { user: userInfo })}
+    //     />
+    //     {/* !For future use --- */}
+    //     <OptionList
+    //       text={"Assignment"}
+    //       Icon={Ionicons}
+    //       iconName={"settings-sharp"}
+    //       onPress={() => console.log("working....")}
+    //     />
+    //     <OptionList
+    //       text={"Result"}
+    //       Icon={Ionicons}
+    //       iconName={"help-circle"}
+    //       onPress={() => console.log("working....")}
+    //     />
+    //     {/* !For future use ---- End */}
+    //     <OptionList
+    //       text={"Logout"}
+    //       Icon={Ionicons}
+    //       iconName={"log-out"}
+    //       onPress={async () => {
+    //         await AsyncStorage.removeItem("authUser");
+    //         navigation.replace("login");
+    //       }}
+    //     />
+    //   </View>
+    // </View>
+    <ScrollView style={styles.container}>
+      <View style={styles.headerContainer}>
+        <Image
+          style={styles.coverPhoto}
+          source={{
+            uri: "https://wallpaperaccess.com/full/124378.jpg",
           }}
         />
+        <View style={styles.profileContainer}>
+          <Avatar
+            style={styles.profilePhoto}
+            size={140}
+            rounded
+            source={{ uri: "https://randomuser.me/api/portraits/men/36.jpg" }}
+          />
+          <Text style={styles.nameText}>Bhuwan</Text>
+        </View>
       </View>
-    </View>
+      <View style={styles.content}>
+        <View style={styles.infoContainer}>
+          <Text style={styles.infoLabel}>Email : jane.doe@example.com</Text>
+        </View>
+        <View style={styles.infoContainer}>
+          <Text style={styles.infoLabel}>Phone No: 93238231</Text>
+        </View>
+        <View style={styles.infoContainer}>
+          <Text style={styles.infoLabel}>Department: BCA</Text>
+        </View>
+        <View style={styles.infoContainer}>
+          <Text style={styles.infoLabel}>Address : Nepalgunj</Text>
+        </View>
+        <View style={styles.infoContainer}>
+          <Text style={styles.infoLabel}>Semister : 8</Text>
+        </View>
+      </View>
+      <TouchableOpacity style={styles.button} onPress={handleEditPress}>
+        <Text style={styles.buttonText}>Edit Profile</Text>
+      </TouchableOpacity>
+    </ScrollView>
   );
 };
 
 export default UserProfileScreen;
 
-const styles = StyleSheet.create({
+const styles = {
   container: {
-    width: "100%",
-    flexDirecion: "row",
-    backgroundColor: colors.light,
+    flex: 1,
+    backgroundColor: "#fff",
+  },
+  infoContainer: {
+    marginTop: 20,
+    paddingLeft: 25,
+  },
+  headerContainer: {
     alignItems: "center",
-    justifyContent: "flex-start",
-    padding: 20,
+  },
+  coverPhoto: {
+    width: "100%",
+    height: 200,
+  },
+  profileContainer: {
+    alignItems: "center",
+    marginTop: -50,
+  },
+  profilePhoto: {
+    width: 100,
+    height: 100,
+    borderRadius: 50,
+  },
+  nameText: {
+    fontSize: 20,
+    fontWeight: "bold",
+    marginTop: 10,
+  },
+  bioContainer: {
+    padding: 15,
+  },
+  bioText: {
+    fontSize: 16,
+  },
+  statsContainer: {
+    flexDirection: "row",
+    marginTop: 20,
+    marginBottom: 20,
+  },
+  statContainer: {
+    alignItems: "center",
     flex: 1,
   },
-  TopBarContainer: {
-    width: "100%",
-    display: "flex",
-    flexDirection: "row",
-    justifyContent: "flex-start",
-    alignItems: "center",
+  statCount: {
+    fontSize: 20,
+    fontWeight: "bold",
   },
-  UserProfileCardContianer: {
-    width: "100%",
-    height: "25%",
+  statLabel: {
+    fontSize: 16,
+    color: "#999",
   },
-  screenNameContainer: {
-    marginTop: 10,
-    width: "100%",
-    display: "flex",
-    flexDirection: "row",
-    justifyContent: "flex-start",
-    alignItems: "center",
-    marginBottom: 10,
+  button: {
+    backgroundColor: "#0066cc",
+    borderRadius: 5,
+    marginTop: 20,
+    padding: 10,
+    marginHorizontal: 20,
   },
-  screenNameText: {
-    fontSize: 30,
-    fontWeight: "800",
-    color: colors.muted,
+  buttonText: {
+    fontSize: 16,
+    color: "#fff",
+    textAlign: "center",
   },
-  OptionsContainer: {
-    width: "100%",
-  },
-});
+};
