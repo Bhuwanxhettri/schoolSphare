@@ -7,6 +7,8 @@ import ForgetPasswordScreen from "../screens/auth/ForgetPasswordScreen";
 import DashboardScreen from "../screens/admin/DashboardScreen";
 import UserProfileScreen from "../screens/profile/UserProfileScreen";
 import Notify from "../screens/notification/Notify";
+import UserList from "../screens/Chat/UserList";
+import Conversation from "../screens/Chat/Conversation";
 
 const Stack = createNativeStackNavigator();
 
@@ -24,6 +26,9 @@ const Routes = () => {
         <Stack.Screen name="dashboard" component={DashboardScreen} />
         <Stack.Screen name="profile" component={UserProfileScreen} />
         <Stack.Screen name="notify" component={Notify} />
+        {/* chat application component */}
+        <Stack.Screen name="userList" component={UserList} />
+        <Stack.Screen name="conversation" component={Conversation} />
 
         {/* <Stack.Screen name="updatepassword" component={UpdatePasswordScreen} />
         <Stack.Screen name="myaccount" component={MyAccountScreen} />

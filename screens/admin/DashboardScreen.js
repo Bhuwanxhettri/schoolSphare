@@ -19,10 +19,10 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import ProgressDialog from "react-native-progress-dialog";
 import { Avatar } from "@rneui/themed";
 import { PricingCard, lightColors } from "@rneui/themed";
-import { SearchBar } from "@rneui/themed";
 import { Entypo } from "@expo/vector-icons";
 import { FontAwesome5 } from "@expo/vector-icons";
 import { AntDesign } from "@expo/vector-icons";
+
 const DashboardScreen = ({ navigation, route }) => {
   // const { authUser } = route.params;
   // const [user, setUser] = useState(authUser);
@@ -199,15 +199,6 @@ const DashboardScreen = ({ navigation, route }) => {
               // }
               // type="morden"
             />
-            {/* <OptionList
-              text={"Subjects"}
-              Icon={Ionicons}
-              iconName={"person"}
-              // onPress={() =>
-              //   navigation.navigate("viewusers", { authUser: user })
-              // }
-              // type="morden"
-            /> */}
           </ScrollView>
           <View style={styles.TabBar}>
             <View>
@@ -226,7 +217,14 @@ const DashboardScreen = ({ navigation, route }) => {
               <Text style={styles.tabBarText}>Profile</Text>
             </View>
             <View>
-              <FontAwesome5 name="rocketchat" size={24} color="black" />
+              <Ionicons
+                onPress={() => {
+                  navigation.replace("userList");
+                }}
+                name="md-chatbubble-outline"
+                size={24}
+                color="black"
+              />
               <Text style={styles.tabBarText}>Chat</Text>
             </View>
             <View>
@@ -290,19 +288,6 @@ const styles = StyleSheet.create({
     borderRadius: 30,
   },
 
-  name: {
-    fontSize: 18,
-    flex: 1,
-    alignSelf: "center",
-    color: "#3399ff",
-    fontWeight: "bold",
-  },
-  count: {
-    fontSize: 14,
-    flex: 1,
-    alignSelf: "center",
-    color: "#6666ff",
-  },
   followButton: {
     marginTop: 10,
     height: 35,
@@ -352,7 +337,7 @@ const styles = StyleSheet.create({
     padding: 18,
   },
   toBarText: {
-    fontSize: 22,
+    fontSize: 18,
     fontWeight: "600",
     color: colors.secondary,
   },
