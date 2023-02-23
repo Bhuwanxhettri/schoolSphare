@@ -19,23 +19,10 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import ProgressDialog from "react-native-progress-dialog";
 import { Avatar } from "@rneui/themed";
 import { PricingCard, lightColors } from "@rneui/themed";
-// import {
-//   LineChart,
-//   BarChart,
-//   PieChart,
-//   ProgressChart,
-//   ContributionGraph,
-//   StackedBarChart,
-// } from "react-native-chart-kit";
+import { Entypo } from "@expo/vector-icons";
+import { FontAwesome5 } from "@expo/vector-icons";
+import { AntDesign } from "@expo/vector-icons";
 
-// const barData = {
-//   labels: ["January", "February", "March", "April", "May", "June"],
-//   datasets: [
-//     {
-//       data: [20, 45, 28, 80, 99, 43],
-//     },
-//   ],
-// };
 const DashboardScreen = ({ navigation, route }) => {
   // const { authUser } = route.params;
   // const [user, setUser] = useState(authUser);
@@ -143,7 +130,7 @@ const DashboardScreen = ({ navigation, route }) => {
               navigation.replace("login");
             }}
           >
-            <Ionicons name="log-out" size={30} color={colors.muted} />
+            <AntDesign name="logout" size={24} color="black" />
           </TouchableOpacity>
           <View>
             <Text style={styles.toBarText}>School Sphare</Text>
@@ -203,9 +190,8 @@ const DashboardScreen = ({ navigation, route }) => {
               // }
               // type="morden"
             />
-
             <OptionList
-              text={"Teachers"}
+              text={"Subjects"}
               Icon={Ionicons}
               iconName={"person"}
               // onPress={() =>
@@ -214,6 +200,46 @@ const DashboardScreen = ({ navigation, route }) => {
               // type="morden"
             />
           </ScrollView>
+          <View style={styles.TabBar}>
+            <View>
+              <Entypo name="home" size={24} color="black" />
+              <Text style={styles.tabBarText}>Home</Text>
+            </View>
+            <View>
+              <MaterialCommunityIcons
+                name="face-woman-outline"
+                size={24}
+                color="black"
+                onPress={() => {
+                  navigation.replace("profile");
+                }}
+              />
+              <Text style={styles.tabBarText}>Profile</Text>
+            </View>
+            <View>
+              <Ionicons
+                onPress={() => {
+                  navigation.replace("userList");
+                }}
+                name="md-chatbubble-outline"
+                size={24}
+                color="black"
+              />
+              <Text style={styles.tabBarText}>Chat</Text>
+            </View>
+            <View>
+              <Ionicons
+                style={{ paddingLeft: 15 }}
+                onPress={() => {
+                  navigation.replace("notify");
+                }}
+                name="notifications-outline"
+                size={24}
+                color="black"
+              />
+              <Text style={styles.tabBarText}>Notification</Text>
+            </View>
+          </View>
         </View>
       </View>
     </InternetConnectionAlert>
@@ -223,6 +249,75 @@ const DashboardScreen = ({ navigation, route }) => {
 export default DashboardScreen;
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    marginTop: 20,
+    backgroundColor: "#ebf0f7",
+  },
+  contentList: {
+    flex: 1,
+  },
+  cardContent: {
+    marginLeft: 20,
+    marginTop: 10,
+  },
+  image: {
+    width: 90,
+    height: 90,
+    borderRadius: 45,
+    borderWidth: 2,
+    borderColor: "#ebf0f7",
+  },
+
+  card: {
+    shadowColor: "#00000021",
+    shadowOffset: {
+      width: 0,
+      height: 6,
+    },
+    shadowOpacity: 0.37,
+    shadowRadius: 7.49,
+    elevation: 12,
+
+    marginLeft: 20,
+    marginRight: 20,
+    marginTop: 20,
+    backgroundColor: "white",
+    padding: 10,
+    flexDirection: "row",
+    borderRadius: 30,
+  },
+
+  followButton: {
+    marginTop: 10,
+    height: 35,
+    width: 100,
+    padding: 10,
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 30,
+    backgroundColor: "white",
+    borderWidth: 1,
+    borderColor: "#dcdcdc",
+  },
+  followButtonText: {
+    color: "#dcdcdc",
+    fontSize: 12,
+  },
+  TabBar: {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    paddingLeft: 20,
+    paddingRight: 20,
+    paddingTop: 10,
+    backgroundColor: colors.white,
+  },
+  tabBarText: {
+    fontSize: 10,
+    color: colors.muted,
+  },
   container: {
     width: "100%",
     flexDirecion: "row",
@@ -238,10 +333,11 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    padding: 20,
+    backgroundColor: colors.tertiary,
+    padding: 18,
   },
   toBarText: {
-    fontSize: 25,
+    fontSize: 18,
     fontWeight: "600",
     color: colors.secondary,
   },
