@@ -7,11 +7,13 @@ import CustomButton from "../../components/CustomButton";
 import { useState } from "react";
 import CustomAlert from "../../components/CustomAlert/CustomAlert";
 import ProgressDialog from "react-native-progress-dialog";
-import network from "../../constants/index";
+import network from "../../constants/index"
 
-const ForgetPasswordScreen = ({ navigation }) => {
+const Otp = ({ navigation }) => {
   const [email, setEmail] = useState("");
   const [error, setError] = useState("");
+  const [otp, setOtp] = useState("");
+  
   const [isloading, setIsloading] = useState(false);
   const sendInstructionsHandle = () => {
     if (email == "") {
@@ -24,11 +26,11 @@ const ForgetPasswordScreen = ({ navigation }) => {
     }
     var myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
-
+  
     var raw = JSON.stringify({
       email: email,
     });
-
+   
     var requestOptions = {
       method: "POST",
       headers: myHeaders,
@@ -36,46 +38,38 @@ const ForgetPasswordScreen = ({ navigation }) => {
       redirect: "follow",
     };
 
-    const network = "http://192.168.1.93:5000/api";
+     const network = "http://192.168.1.93:5000/api";
     fetch(network + "/auth/forget-password", requestOptions) // API call
-      .then((response) => response.json())
-      .then((result) => {
-        setError(result?.message);
-        if (
-          result.status == 200 ||
-          (result.status == 1 && result.success != false)
-        ) {
-        console.log(result);
-
-          navigation.replace("otp");
-        }
-
-        // if (
-        //   result.status == 200 ||
-        //   (result.status == 1 && result.success != false)
-        // ) {
-        //   _storeData(result.data);
-        //   navigation.replace("dashboard", { authUser: result.data }); // naviagte to Admin Dashboard
-        //   // if (result?.data?.userType == "ADMIN") {
-        //   //   //check the user type if the type is ADMIN then navigate to Dashboard else navigate to User Home
-        //   //   _storeData(result.data);
-        //   //   setIsloading(false);
-        //   //   navigation.replace("dashboard", { authUser: result.data }); // naviagte to Admin Dashboard
-        //   // } else {
-        //   //   _storeData(result.data);
-        //   //   setIsloading(false);
-        //   //   navigation.replace("tab", { user: result.data }); // naviagte to User Dashboard
-        //   // }
-        // } else {
-        //   setIsloading(false);
-        //   return setError(result.message);
-        // }
-      })
-      .catch((error) => {
-        setIsloading(false);
-        console.log("error", setError(error.message));
-      });
-    alert(JSON.stringify(email));
+    .then((response) => response.json())
+    .then((result) => {
+      console.log(result)
+      setError(result?.message)
+      // if (
+      //   result.status == 200 ||
+      //   (result.status == 1 && result.success != false)
+      // ) {
+      //   _storeData(result.data);
+      //   navigation.replace("dashboard", { authUser: result.data }); // naviagte to Admin Dashboard
+      //   // if (result?.data?.userType == "ADMIN") {
+      //   //   //check the user type if the type is ADMIN then navigate to Dashboard else navigate to User Home
+      //   //   _storeData(result.data);
+      //   //   setIsloading(false);
+      //   //   navigation.replace("dashboard", { authUser: result.data }); // naviagte to Admin Dashboard
+      //   // } else {
+      //   //   _storeData(result.data);
+      //   //   setIsloading(false);
+      //   //   navigation.replace("tab", { user: result.data }); // naviagte to User Dashboard
+      //   // }
+      // } else {
+      //   setIsloading(false);
+      //   return setError(result.message);
+      // }
+    })
+    .catch((error) => {
+      setIsloading(false);
+      console.log("error", setError(error.message));
+    });
+    alert(JSON.stringify(email))
     //TODO: handle user verfication and mail password reset link
   };
   return (
@@ -94,7 +88,7 @@ const ForgetPasswordScreen = ({ navigation }) => {
         </TouchableOpacity>
       </View>
       <View style={styles.screenNameContainer}>
-        <ProgressDialog visible={isloading} label={"Login ..."} />
+      <ProgressDialog visible={isloading} label={"Login ..."} />
         <View>
           <Text style={styles.screenNameText}>Reset Password</Text>
         </View>
@@ -107,16 +101,25 @@ const ForgetPasswordScreen = ({ navigation }) => {
         </View>
       </View>
       <View style={styles.formContainer}>
-        <CustomInput
-          value={email}
-          setValue={setEmail}
-          placeholder={"Email"}
-          placeholderTextColor={colors.muted}
-          radius={5}
-        />
+      <CustomInput
+              value={email}
+              setValue={setEmail}
+              placeholder={"Email"}
+              placeholderTextColor={colors.muted}
+              radius={5}
+            />
+      </View>
+      <View style={styles.formContainer}>
+      <CustomInput
+              value={email}
+              setValue={setEmail}
+              placeholder={"Email"}
+              placeholderTextColor={colors.muted}
+              radius={5}
+            />
       </View>
       <CustomButton
-        text={"Send Instruction"}
+        text={"Send Otp"}
         onPress={sendInstructionsHandle}
         // radius={5}
       />
@@ -124,7 +127,7 @@ const ForgetPasswordScreen = ({ navigation }) => {
   );
 };
 
-export default ForgetPasswordScreen;
+export default Otp;
 
 const styles = StyleSheet.create({
   container: {

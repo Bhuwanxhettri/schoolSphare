@@ -7,8 +7,8 @@ import {
   KeyboardAvoidingView,
   ScrollView,
 } from "react-native";
-
-import React, { useState } from "react";
+import instance from "../../api/index";
+import React, { useState,useEffect } from "react";
 import { colors, network } from "../../constants";
 import CustomInput from "../../components/CustomInput";
 import CustomButton from "../../components/CustomButton";
@@ -17,12 +17,58 @@ import ProgressDialog from "react-native-progress-dialog";
 import InternetConnectionAlert from "react-native-internet-connection-alert";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import logo from "../../image/companyLogo.png";
+import * as Device from "expo-device";
+import * as Notifications from "expo-notifications";
 
+Notifications.setNotificationHandler({
+  handleNotification: async () => ({
+    shouldShowAlert: true,
+    shouldPlaySound: false,
+    shouldSetBadge: false,
+  }),
+});
+async function registerForPushNotificationsAsync() {
+  let token;
+  if (Device.isDevice) {
+    const { status: existingStatus } =
+      await Notifications.getPermissionsAsync();
+    let finalStatus = existingStatus;
+    if (existingStatus !== "granted") {
+      const { status } = await Notifications.requestPermissionsAsync();
+      finalStatus = status;
+    }
+    if (finalStatus !== "granted") {
+      alert("Failed to get push token for push notification!");
+      return;
+    }
+    token = (await Notifications.getExpoPushTokenAsync()).data;
+    console.log(token);
+  } else {
+    alert("Must use physical device for Push Notifications");
+  }
+
+  if (Platform.OS === "android") {
+    Notifications.setNotificationChannelAsync("default", {
+      name: "default",
+      importance: Notifications.AndroidImportance.MAX,
+      vibrationPattern: [0, 250, 250, 250],
+      lightColor: "#FF231F7C",
+    });
+  }
+
+  return token;
+}
 const LoginScreen = ({ navigation }) => {
+  
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [isloading, setIsloading] = useState(false);
+  const [expoPushToken, setExpoPushToken] = useState('');
+  useEffect(()=>{
+
+    registerForPushNotificationsAsync().then(token => setExpoPushToken(token));
+  },[])
 
   //method to store the authUser to aync storage
   _storeData = async (user) => {
@@ -40,6 +86,7 @@ const LoginScreen = ({ navigation }) => {
   var raw = JSON.stringify({
     email: email,
     password: password,
+    deviceId:expoPushToken,
   });
 
   var requestOptions = {
@@ -76,36 +123,48 @@ const LoginScreen = ({ navigation }) => {
       setIsloading(false);
       return setError("Password must be 6 characters long");
     }
-    //[check validation] -- End
 
-    // fetch(network.serverip + "/login", requestOptions) // API call
-    //   .then((response) => response.json())
-    //   .then((result) => {
-    //     navigation.replace("tab", { user: result.data }); // naviagte to User Dashboard
+    // instance
+    //   .post("api/auth/login", raw)
+    //   .then((response) => {
+    //     console.log(response.data);
+    //     setIsloading(false);
+    //   })
+    //   .catch((error) => {
+    //     console.log(JSON.stringify(error));
+    //     setIsloading(false);
+    //   });
+    const network = "http://192.168.1.93:5000/api";
+    // [check validation] -- End
 
-    // if (
-    //   result.status == 200 ||
-    //   (result.status == 1 && result.success != false)
-    // ) {
-    //   if (result?.data?.userType == "ADMIN") {
-    //     //check the user type if the type is ADMIN then navigate to Dashboard else navigate to User Home
-    //     _storeData(result.data);
-    //     setIsloading(false);
-    //     navigation.replace("dashboard", { authUser: result.data }); // naviagte to Admin Dashboard
-    //   } else {
-    //     _storeData(result.data);
-    //     setIsloading(false);
-    //     navigation.replace("tab", { user: result.data }); // naviagte to User Dashboard
-    //   }
-    // } else {
-    //   setIsloading(false);
-    //   return setError(result.message);
-    // }
-    // })
-    // .catch((error) => {
-    //   setIsloading(false);
-    //   console.log("error", setError(error.message));
-    // });
+    fetch(network + "/auth/login", requestOptions) // API call
+      .then((response) => response.json())
+      .then((result) => {
+        if (
+          result.status == 200 ||
+          (result.status == 1 && result.success != false)
+        ) {
+          _storeData(result.data);
+          navigation.replace("dashboard", { authUser: result.data }); // naviagte to Admin Dashboard
+          // if (result?.data?.userType == "ADMIN") {
+          //   //check the user type if the type is ADMIN then navigate to Dashboard else navigate to User Home
+          //   _storeData(result.data);
+          //   setIsloading(false);
+          //   navigation.replace("dashboard", { authUser: result.data }); // naviagte to Admin Dashboard
+          // } else {
+          //   _storeData(result.data);
+          //   setIsloading(false);
+          //   navigation.replace("tab", { user: result.data }); // naviagte to User Dashboard
+          // }
+        } else {
+          setIsloading(false);
+          return setError(result.message);
+        }
+      })
+      .catch((error) => {
+        setIsloading(false);
+        console.log("error", setError(error.message));
+      });
   };
 
   return (
