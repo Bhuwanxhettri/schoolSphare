@@ -8,7 +8,7 @@ import {
   ScrollView,
 } from "react-native";
 import instance from "../../api/index";
-import React, { useState,useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { colors, network } from "../../constants";
 import CustomInput from "../../components/CustomInput";
 import CustomButton from "../../components/CustomButton";
@@ -59,21 +59,22 @@ async function registerForPushNotificationsAsync() {
   return token;
 }
 const LoginScreen = ({ navigation }) => {
-  
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [isloading, setIsloading] = useState(false);
-  const [expoPushToken, setExpoPushToken] = useState('');
-  useEffect(()=>{
-
-    registerForPushNotificationsAsync().then(token => setExpoPushToken(token));
-  },[])
+  const [expoPushToken, setExpoPushToken] = useState("");
+  useEffect(() => {
+    registerForPushNotificationsAsync().then((token) =>
+      setExpoPushToken(token)
+    );
+  }, []);
 
   //method to store the authUser to aync storage
-  _storeData = async (user) => {
+  _storeData = async (token) => {
     try {
-      AsyncStorage.setItem("authUser", JSON.stringify(user));
+      alert(token);
+      AsyncStorage.setItem("access_token", JSON.stringify(token));
     } catch (error) {
       console.log(error);
       setError(error);
@@ -86,7 +87,7 @@ const LoginScreen = ({ navigation }) => {
   var raw = JSON.stringify({
     email: email,
     password: password,
-    deviceId:expoPushToken,
+    deviceId: expoPushToken,
   });
 
   var requestOptions = {
@@ -134,7 +135,7 @@ const LoginScreen = ({ navigation }) => {
     //     console.log(JSON.stringify(error));
     //     setIsloading(false);
     //   });
-    const network = "http://192.168.1.93:5000/api";
+    const network = "https://sms-twox.onrender.com/api";
     // [check validation] -- End
 
     fetch(network + "/auth/login", requestOptions) // API call
@@ -144,8 +145,9 @@ const LoginScreen = ({ navigation }) => {
           result.status == 200 ||
           (result.status == 1 && result.success != false)
         ) {
-          _storeData(result.data);
-          navigation.replace("dashboard", { authUser: result.data }); // naviagte to Admin Dashboard
+          alert(JSON.stringify(result));
+          _storeData(result.access_token);
+          navigation.replace("dashboard"); // naviagte to Admin Dashboard
           // if (result?.data?.userType == "ADMIN") {
           //   //check the user type if the type is ADMIN then navigate to Dashboard else navigate to User Home
           //   _storeData(result.data);

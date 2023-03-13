@@ -22,13 +22,47 @@ import { PricingCard, lightColors } from "@rneui/themed";
 import { Entypo } from "@expo/vector-icons";
 import { FontAwesome5 } from "@expo/vector-icons";
 import { AntDesign } from "@expo/vector-icons";
-
+import {
+  LineChart,
+  BarChart,
+  PieChart,
+  ProgressChart,
+  ContributionGraph,
+  StackedBarChart,
+} from "react-native-chart-kit";
+import { Dimensions } from "react-native";
+import axios from "axios";
+import instance from "../../api";
+const screenWidth = Dimensions.get("window").width;
+const chartConfig = {
+  backgroundGradientFrom: "#1E2923",
+  backgroundGradientFromOpacity: 0,
+  backgroundGradientTo: "#08130D",
+  backgroundGradientToOpacity: 0.5,
+  color: (opacity = 1) => `rgba(26, 255, 146, ${opacity})`,
+  strokeWidth: 2, // optional, default 3
+  barPercentage: 0.5,
+  useShadowColorFromDataset: false, // optional
+};
+const data = {
+  labels: ["January", "February", "March", "April", "May", "June"],
+  datasets: [
+    {
+      data: [20, 45, 28, 80, 99, 43],
+      color: (opacity = 1) => `rgba(134, 65, 244, ${opacity})`, // optional
+      strokeWidth: 2, // optional
+    },
+  ],
+  legend: ["Rainy Days"], // optional
+};
 const DashboardScreen = ({ navigation, route }) => {
   // const { authUser } = route.params;
   // const [user, setUser] = useState(authUser);
   const [label, setLabel] = useState("Loading...");
   const [error, setError] = useState("");
   const [isloading, setIsloading] = useState(false);
+  const [accessToken, setAccessToken] = useState("");
+
   // const [data, setData] = useState([]);
   // const [refeshing, setRefreshing] = useState(false);
 
@@ -37,90 +71,181 @@ const DashboardScreen = ({ navigation, route }) => {
   //   await AsyncStorage.removeItem("authUser");
   //   navigation.replace("login");
   // };
+  let at = "";
+  const handleAccessToken = async () => {
+    at = await AsyncStorage.getItem("access_token");
+    alert(at);
+    console.log(await AsyncStorage.getItem("access_token"));
+    setAccessToken(await AsyncStorage.getItem("access_token"));
+  };
+  useEffect(() => {
+    handleAccessToken();
+
+    axios
+      .get("192.168.1.71/api/auth/users/me", {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: accessToken,
+        },
+      })
+      .then((res) => {
+        console.log(JSON.stringify(res));
+        alert(JSON.stringify(res));
+      })
+      .catch((err) => {
+        console.log(err);
+        alert(JSON.stringify(err));
+      });
+
+    // instance
+    //   .get("/auth/users/me", {
+    //     headers: {
+    //       "Content-Type": "application/json",
+    //       Authorization: at,
+    //     },
+    //   })
+    //   .then((res) => {
+    //     alert(res);
+    //     console.log(res.data);
+    //   })
+    //   .catch((err) => {
+    //     alert(JSON.stringify(err));
+    //   });
+  }, []);
 
   // var myHeaders = new Headers();
-  // myHeaders.append("x-auth-token", authUser.token);
+  // myHeaders.append("Authorization", at);
 
-  // var requestOptions = {
-  //   method: "GET",
-  //   headers: myHeaders,
-  //   redirect: "follow",
-  // };
+  var requestOptions = {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: accessToken,
+    },
+    redirect: "follow",
+  };
 
-  //method the fetch the statistics from server using API call
-  // const fetchStats = () => {
-  //   fetch(`${network.serverip}/dashboard`, requestOptions)
-  //     .then((response) => response.json())
-  //     .then((result) => {
-  //       if (result.success == true) {
-  //         //set the fetched data to Data state
-  //         setData([
-  //           {
-  //             id: 1,
-  //             title: "Users",
-  //             value: result.data?.usersCount,
-  //             iconName: "person",
-  //             type: "parimary",
-  //             screenName: "viewusers",
-  //           },
-  //           {
-  //             id: 2,
-  //             title: "Orders",
-  //             value: result.data?.ordersCount,
-  //             iconName: "cart",
-  //             type: "secondary",
-  //             screenName: "vieworder",
-  //           },
-  //           {
-  //             id: 3,
-  //             title: "Products",
-  //             value: result.data?.productsCount,
-  //             iconName: "md-square",
-  //             type: "warning",
-  //             screenName: "viewproduct",
-  //           },
-  //           {
-  //             id: 4,
-  //             title: "Categories",
-  //             value: result.data?.categoriesCount,
-  //             iconName: "menu",
-  //             type: "muted",
-  //             screenName: "viewcategories",
-  //           },
-  //         ]);
-  //         setError("");
-  //         setIsloading(false);
-  //       } else {
-  //         console.log(result.err);
-  //         if (result.err == "jwt expired") {
-  //           logout();
-  //         }
-  //         setError(result.message);
-  //         setIsloading(false);
-  //       }
-  //     })
-  //     .catch((error) => {
-  //       setError(error.message);
-  //       console.log("error", error);
-  //       setIsloading(false);
-  //     });
-  // };
+  // method the fetch the statistics from server using API call
+  const fetchStats = () => {
+    fetch(`http:192.168.1.71:5000/api/auth/users/me`, requestOptions)
+      .then((response) => response.json())
+      .then((result) => {
+        alert(JSON.stringify(result));
+        // if (result.success == true) {
+        //   //set the fetched data to Data state
+        //   setData([
+        //     {
+        //       id: 1,
+        //       title: "Users",
+        //       value: result.data?.usersCount,
+        //       iconName: "person",
+        //       type: "parimary",
+        //       screenName: "viewusers",
+        //     },
+        //     {
+        //       id: 2,
+        //       title: "Orders",
+        //       value: result.data?.ordersCount,
+        //       iconName: "cart",
+        //       type: "secondary",
+        //       screenName: "vieworder",
+        //     },
+        //     {
+        //       id: 3,
+        //       title: "Products",
+        //       value: result.data?.productsCount,
+        //       iconName: "md-square",
+        //       type: "warning",
+        //       screenName: "viewproduct",
+        //     },
+        //     {
+        //       id: 4,
+        //       title: "Categories",
+        //       value: result.data?.categoriesCount,
+        //       iconName: "menu",
+        //       type: "muted",
+        //       screenName: "viewcategories",
+        //     },
+        //   ]);
+        //   setError("");
+        //   setIsloading(false);
+        // } else {
+        //   console.log(result.err);
+        //   if (result.err == "jwt expired") {
+        //     logout();
+        //   }
+        //   setError(result.message);
+        //   setIsloading(false);
+        // }
+      })
+      .catch((error) => {
+        setError(error.message);
+        console.log("error", error);
+        setIsloading(false);
+      });
+  };
 
-  //method call on Pull refresh
-  // const handleOnRefresh = () => {
-  //   setRefreshing(true);
-  //   fetchStats();
-  //   setRefreshing(false);
-  // };
+  // method call on Pull refresh
+  const handleOnRefresh = () => {
+    setRefreshing(true);
+    fetchStats();
+    setRefreshing(false);
+  };
 
-  //call the fetch function initial render
-  // useEffect(() => {
-  //   fetchStats();
-  // }, []);
+  // call the fetch function initial render
+  useEffect(() => {
+    fetchStats();
+  }, [at]);
 
   return (
     <InternetConnectionAlert onChange={(connectionState) => {}}>
       <View style={styles.container}>
+        <View>
+          <Text>Bezier Line Chart</Text>
+          <LineChart
+            data={{
+              labels: ["January", "February", "March", "April", "May", "June"],
+              datasets: [
+                {
+                  data: [
+                    Math.random() * 100,
+                    Math.random() * 100,
+                    Math.random() * 100,
+                    Math.random() * 100,
+                    Math.random() * 100,
+                    Math.random() * 100,
+                  ],
+                },
+              ],
+            }}
+            width={Dimensions.get("window").width} // from react-native
+            height={220}
+            yAxisLabel="$"
+            yAxisSuffix="k"
+            yAxisInterval={1} // optional, defaults to 1
+            chartConfig={{
+              backgroundColor: "#e26a00",
+              backgroundGradientFrom: "#fb8c00",
+              backgroundGradientTo: "#ffa726",
+              decimalPlaces: 2, // optional, defaults to 2dp
+              color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+              labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+              style: {
+                borderRadius: 16,
+              },
+              propsForDots: {
+                r: "6",
+                strokeWidth: "2",
+                stroke: "#ffa726",
+              },
+            }}
+            bezier
+            style={{
+              marginVertical: 8,
+              borderRadius: 16,
+            }}
+          />
+        </View>
         <StatusBar></StatusBar>
         <ProgressDialog visible={isloading} label={label} />
         <View style={styles.topBarContainer}>
@@ -147,6 +272,12 @@ const DashboardScreen = ({ navigation, route }) => {
           <MaterialCommunityIcons name="menu-right" size={30} color="black" />
           <Text style={styles.headingText}>Welcome,Bhuwan</Text>
         </View>
+        <LineChart
+          data={data}
+          width={screenWidth}
+          height={220}
+          chartConfig={chartConfig}
+        />
 
         <View style={{ flex: 1, width: "100%" }}>
           <ScrollView style={styles.actionContainer}>
